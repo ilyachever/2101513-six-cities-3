@@ -1,8 +1,4 @@
-class RatingStarsWidthResolver {
-  public static resolve(rating: number): string {
-    const starsCount = Math.round(rating);
-    return `${starsCount * 20}%`;
-  }
-}
-
-export default RatingStarsWidthResolver;
+export const calculateRatingWidth = (rating: number): string => {
+  const roundedRating = Math.round(rating);
+  return `${roundedRating * 20}%`;
+};

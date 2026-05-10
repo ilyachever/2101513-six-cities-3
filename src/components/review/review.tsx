@@ -1,5 +1,5 @@
 import { Comment } from '../../types/comment';
-import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
 
 type ReviewProps = {
     comment: Comment;
@@ -27,7 +27,7 @@ function Review({comment}: ReviewProps) {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: RatingStarsWidthResolver.resolve(comment.rating) }}></span>
+            <span style={{ width: calculateRatingWidth(comment.rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

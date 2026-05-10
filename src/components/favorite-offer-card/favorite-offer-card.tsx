@@ -1,5 +1,5 @@
 import { Link, useNavigate, generatePath } from 'react-router-dom';
-import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
 import { Offer } from '../../types/offer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteOfferStatusAction } from '../../store/api-actions';
@@ -56,7 +56,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: RatingStarsWidthResolver.resolve(offer.rating) }}></span>
+            <span style={{ width: calculateRatingWidth(offer.rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

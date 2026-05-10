@@ -15,7 +15,7 @@ import {setResourceNotFound} from '../../store/offers-data/offers-data';
 import {getOfferPageData} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
-import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
 
 const MAX_OFFER_IMAGES = 6;
 const MAX_NEARBY_OFFERS = 3;
@@ -128,7 +128,7 @@ function Offer() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: RatingStarsWidthResolver.resolve(offerDetailed.rating) }}></span>
+                  <span style={{ width: calculateRatingWidth(offerDetailed.rating) }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offerDetailed.rating}</span>
