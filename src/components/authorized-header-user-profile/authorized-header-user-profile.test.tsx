@@ -22,6 +22,7 @@ describe('Component: AuthorizedHeaderUserProfile', () => {
           favorites: mockFavorites,
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
       }
     );
@@ -47,6 +48,7 @@ describe('Component: AuthorizedHeaderUserProfile', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
       }
     );

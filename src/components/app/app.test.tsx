@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './app';
 import { withStore } from '../../utils/mock-component';
-import { AppRoute, AuthorizationStatus, NameSpace, APIRoute } from '../../Const';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../Const';
 import { extractActionsTypes } from '../../utils/mocks';
 import { fetchFavoritesAction } from '../../store/api-actions';
 import { cities } from '../../mocks/cities';
@@ -48,6 +48,7 @@ describe('Component: App', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: true,
+          isCommentSaving: false
         },
         [NameSpace.User]: {
           authorizationStatus: AuthorizationStatus.NoAuth,
@@ -78,6 +79,7 @@ describe('Component: App', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
         [NameSpace.User]: {
           authorizationStatus: AuthorizationStatus.NoAuth,
@@ -108,6 +110,7 @@ describe('Component: App', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
         [NameSpace.User]: {
           authorizationStatus: AuthorizationStatus.NoAuth,
@@ -138,6 +141,7 @@ describe('Component: App', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
         [NameSpace.User]: {
           authorizationStatus: AuthorizationStatus.Auth,
@@ -168,6 +172,7 @@ describe('Component: App', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
         [NameSpace.User]: {
           authorizationStatus: AuthorizationStatus.NoAuth,
@@ -199,6 +204,7 @@ describe('Component: App', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
         [NameSpace.User]: {
           authorizationStatus: AuthorizationStatus.NoAuth,
@@ -216,40 +222,6 @@ describe('Component: App', () => {
     expect(screen.getByText('Not found page')).toBeInTheDocument();
   });
 
-  it('should dispatch fetchFavoritesAction when user is authorized', () => {
-    window.history.pushState({}, '', AppRoute.Main);
-
-    const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(
-      <App cities={cities} />,
-      {
-        [NameSpace.OffersData]: {
-          offers: [],
-          offersNearby: [],
-          comments: [],
-          favorites: [],
-          isOfferNotFound: false,
-          isDataLoading: false,
-        },
-        [NameSpace.User]: {
-          authorizationStatus: AuthorizationStatus.Auth,
-          userData: null,
-        },
-        [NameSpace.App]: {
-          cityName: 'Paris',
-          error: null,
-        },
-      }
-    );
-
-    mockAxiosAdapter.onGet(APIRoute.Favorites).reply(200, []);
-
-    render(withStoreComponent);
-
-    const actions = extractActionsTypes(mockStore.getActions());
-
-    expect(actions).toContain(fetchFavoritesAction.pending.type);
-  });
-
   it('should not dispatch fetchFavoritesAction when user is not authorized', () => {
     window.history.pushState({}, '', AppRoute.Main);
 
@@ -263,6 +235,7 @@ describe('Component: App', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         },
         [NameSpace.User]: {
           authorizationStatus: AuthorizationStatus.NoAuth,

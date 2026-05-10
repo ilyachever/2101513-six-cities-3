@@ -3,11 +3,14 @@ import {Offers} from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
 type OffersListProps = {
-    offers: Offers;
-    onActiveChange: (activeOfferId: string | undefined) => void;
+  offers: Offers;
+  onActiveChange: (activeOfferId: string | undefined) => void;
+  className?: string;
+  cardVariant?: 'cities' | 'near-places';
+  hoveredOfferId?: string | undefined;
 }
 
-function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
+function OffersList({offers, onActiveChange, className, cardVariant = 'cities', hoveredOfferId}: OffersListProps): JSX.Element {
   const [, setActiveOfferId] = useState<string | undefined>(undefined);
 
   const handleSetActive = useCallback((offerId: string) => {
@@ -20,14 +23,18 @@ function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
     onActiveChange(undefined);
   }, [onActiveChange]);
 
+  const listClassName = className ?? 'cities__places-list places__list tabs__content';
+
   return (
-    <div className="cities__places-list places__list tabs__content" style={{justifyContent: 'center'}}>
+    <div className={listClassName} style={{justifyContent: 'center'}}>
       {offers.map((offer) => (
         <PlaceCard
           offer={offer}
           key={offer.id}
+          cardVariant={cardVariant}
           onSetActive={handleSetActive}
           onResetActive={handleResetActive}
+          isHovered={hoveredOfferId === offer.id}
         />))}
     </div>
   );

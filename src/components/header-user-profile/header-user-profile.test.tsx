@@ -40,6 +40,7 @@ describe('Component: HeaderUserProfile', () => {
           favorites: [],
           isOfferNotFound: false,
           isDataLoading: false,
+          isCommentSaving: false
         }
       }
     );
