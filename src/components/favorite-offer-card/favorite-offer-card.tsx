@@ -1,5 +1,5 @@
 import { Link, useNavigate, generatePath } from 'react-router-dom';
-import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/rating-stars-width-resolver.ts';
 import { Offer } from '../../types/offer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteOfferStatusAction } from '../../store/api-actions';

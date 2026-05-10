@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Map from './map';
-import { CITY } from '../../const';
+import { DEFAULT_CITY } from '../../const';
 import { Point } from '../../types/point';
 
 describe('Component: Map', () => {
@@ -10,7 +10,7 @@ describe('Component: Map', () => {
   ];
 
   it('should render map container', () => {
-    render(<Map city={CITY} points={points} selectedPointId={undefined} />);
+    render(<Map city={DEFAULT_CITY} points={points} selectedPointId={undefined} />);
 
     expect(screen.getByTestId('map')).toBeInTheDocument();
   });

@@ -2,6 +2,23 @@ import { City } from './types/city';
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
+export const DEFAULT_CITY: City = {
+  name: 'Amsterdam',
+  location: {
+    latitude: 52.37454,
+    longitude: 4.897976,
+    zoom: 13
+  }
+};
+
+export const RATING_STARS = [
+  { value: 5, title: 'perfect' },
+  { value: 4, title: 'good' },
+  { value: 3, title: 'not bad' },
+  { value: 2, title: 'badly' },
+  { value: 1, title: 'terribly' },
+];
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -15,15 +32,6 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN'
 }
-
-export const CITY: City = {
-  name: 'Amsterdam',
-  location: {
-    latitude: 52.37454,
-    longitude: 4.897976,
-    zoom: 13
-  }
-};
 
 export enum SortType {
   Popular,

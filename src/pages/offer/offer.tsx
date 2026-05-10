@@ -3,7 +3,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import {Link, useNavigate} from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import {useParams} from 'react-router-dom';
-import {convertToPoints} from '../../utils/offersConverter';
+import {convertToPoints} from '../../utils/offers-сonverter.ts';
 import Map from '../../components/map/map';
 import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
@@ -15,7 +15,7 @@ import {setResourceNotFound} from '../../store/offers-data/offers-data';
 import {getOfferPageData} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
-import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/rating-stars-width-resolver.ts';
 
 const MAX_OFFER_IMAGES = 6;
 const MAX_NEARBY_OFFERS = 3;

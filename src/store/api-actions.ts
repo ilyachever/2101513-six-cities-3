@@ -18,7 +18,7 @@ export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'fetchOffers',
+  'data/fetchOffers',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Offer[]>(APIRoute.Offers);
     return data;
@@ -30,7 +30,7 @@ export const fetchOfferAction = createAsyncThunk<OfferDetailed, string, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'fetchOffer',
+  'data/fetchOffer',
   async (offerId, {extra: api, rejectWithValue}) => {
     try {
       const {data} = await api.get<OfferDetailed>(`${APIRoute.Offers}/${offerId}`);
@@ -49,7 +49,7 @@ export const fetchOffersNearbyAction = createAsyncThunk<Offer[], string, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'fetchOffersNearby',
+  'data/fetchOffersNearby',
   async (offerId, {extra: api}) => {
     const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${offerId}/nearby`);
     return data;
@@ -61,7 +61,7 @@ export const fetchCommentsAction = createAsyncThunk<Comment[], string, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'fetchComments',
+  'data/fetchComments',
   async (offerId, {extra: api}) => {
     const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${offerId}`);
     return data;
@@ -73,7 +73,7 @@ export const fetchOfferPageData = createAsyncThunk<void, string, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'fetchOfferPageData',
+  'data/fetchOfferPageData',
   async (offerId, {dispatch}) => {
     await Promise.all([
       dispatch(fetchOfferAction(offerId)),
@@ -88,7 +88,7 @@ export const fetchFavoritesAction = createAsyncThunk<Offer[], undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'fetchFavorites',
+  'data/fetchFavorites',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Offer[]>(`${APIRoute.Favorites}`);
     return data;
@@ -101,7 +101,7 @@ export const checkAuthAction = createAsyncThunk<UserData | null, undefined, {
   extra: AxiosInstance;
   rejectValue: number;
 }>(
-  'checkAuth',
+  'user/checkAuth',
   async (_arg, {extra: api, rejectWithValue}) => {
     try {
       const {data} = await api.get<UserData>(APIRoute.Login);
@@ -121,7 +121,7 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'login',
+  'user/login',
   async ({email, password}, {extra: api, dispatch}) => {
     const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(data.token);
@@ -135,7 +135,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'logout',
+  'user/logout',
   async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
@@ -143,7 +143,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 );
 
 export const clearErrorAction = createAsyncThunk(
-  'clearError',
+  'app/clearError',
   (_arg, { dispatch }) => {
     setTimeout(
       () => dispatch(setError(null)),
@@ -157,7 +157,7 @@ export const saveCommentAction = createAsyncThunk<Comment, CommentDto & { offerI
   state: State;
   extra: AxiosInstance;
 }>(
-  'saveComment',
+  'data/saveComment',
   async ({offerId, comment, rating}, {extra: api}) => {
     const {data} = await api.post<Comment>(`${APIRoute.Comments}/${offerId}`, {comment, rating});
     return data;
@@ -169,7 +169,7 @@ export const changeFavoriteOfferStatusAction = createAsyncThunk<void, {offerId: 
   state: State;
   extra: AxiosInstance;
 }>(
-  'changeFavoriteOfferStatusAction',
+  'data/changeFavoriteOfferStatus',
   async ({offerId, isFavorite}, {extra: api, dispatch}) => {
     const {data} = await api.post<OfferDetailed>(`${APIRoute.Favorites}/${offerId}/${isFavorite}`, {offerId, isFavorite});
     dispatch(changeFavoriteOfferStatus(data));

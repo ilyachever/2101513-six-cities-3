@@ -1,6 +1,6 @@
 import {Link, useNavigate, generatePath} from 'react-router-dom';
 import {Offer} from '../../types/offer';
-import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/rating-stars-width-resolver.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeFavoriteOfferStatusAction} from '../../store/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';

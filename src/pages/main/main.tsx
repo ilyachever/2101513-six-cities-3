@@ -3,7 +3,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import {Point} from '../../types/point';
 import {useState, useCallback, useMemo} from 'react';
-import {convertToPoints} from '../../utils/offersConverter';
+import {convertToPoints} from '../../utils/offers-сonverter.ts';
 import CitiesList from '../../components/cities-list/cities-list';
 import {City} from '../../types/city';
 import {useAppSelector} from '../../hooks';
@@ -11,7 +11,7 @@ import {getOffersByCity} from '../../store/offers-data/selectors';
 import {getCityName} from '../../store/app-process/selectors';
 import SortOptions from '../../components/sort-options/sort-options';
 import {SortType} from '../../const';
-import {sortOffers} from '../../utils/sortOffers';
+import {sortOffers} from '../../utils/sort-offers.ts';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 import MainEmpty from '../../components/main-empty/main-empty';
 

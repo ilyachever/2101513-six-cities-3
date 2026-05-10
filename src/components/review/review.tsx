@@ -1,5 +1,5 @@
 import { Comment } from '../../types/comment';
-import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/rating-stars-width-resolver.ts';
 
 type ReviewProps = {
     comment: Comment;
