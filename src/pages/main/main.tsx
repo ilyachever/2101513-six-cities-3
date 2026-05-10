@@ -15,7 +15,7 @@ import {sortOffers} from '../../utils/sortOffers';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 type MainProps = {
-    cities: City[];
+  cities: City[];
 }
 
 function Main({cities}: MainProps): JSX.Element {
@@ -34,13 +34,14 @@ function Main({cities}: MainProps): JSX.Element {
   const currentCityName = useAppSelector(getCityName);
   const city = useMemo(() => cities.filter((c) => c.name === currentCityName)[0], [cities, currentCityName]);
 
-  const offers = useMemo(() =>
-    allOffers.filter((offer: any) => offer.city.name === currentCityName),
+  const offers = useMemo(
+    () =>
+      allOffers.filter(
+        (offer) => offer.city.name === currentCityName
+      ),
     [allOffers, currentCityName]
-  const sortedOffers = useMemo(() =>
-    sortOffers(offers, sortType),
-  [offers, sortType]
   );
+  const sortedOffers = useMemo(() => sortOffers(offers, sortType), [offers, sortType]);
   const points: Point[] = convertToPoints(offers);
 
   return (
@@ -50,10 +51,10 @@ function Main({cities}: MainProps): JSX.Element {
           <div className="header__wrapper">
             <div className="header__left">
               <Link className="header__logo-link header__logo-link--active" to="#">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
+                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
               </Link>
             </div>
-            <HeaderUserProfile />
+            <HeaderUserProfile/>
           </div>
         </div>
       </header>
@@ -61,7 +62,7 @@ function Main({cities}: MainProps): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList cities={cities} />
+            <CitiesList cities={cities}/>
           </section>
         </div>
         <div className="cities">
@@ -69,11 +70,11 @@ function Main({cities}: MainProps): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city.name}</b>
-              <SortOptions sortType={sortType} onSortTypeChange={onSortTypeChange} />
-              <OffersList offers={sortedOffers} onActiveChange={onActiveChange} />
+              <SortOptions sortType={sortType} onSortTypeChange={onSortTypeChange}/>
+              <OffersList offers={sortedOffers} onActiveChange={onActiveChange}/>
             </section>
             <div className="cities__right-section">
-              <Map city={city} points={points} selectedPointId={activeOfferId} />
+              <Map city={city} points={points} selectedPointId={activeOfferId}/>
             </div>
           </div>
         </div>
