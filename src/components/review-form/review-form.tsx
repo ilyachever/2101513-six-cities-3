@@ -69,20 +69,21 @@ function ReviewForm({offerId}: ReviewFormProps) {
         ))}
       </div>
       <textarea className="reviews__textarea form__textarea"
-                id="review"
-                name="review"
-                value={reviewFormData.review}
-                placeholder="Tell how was your stay, what you like and what can be improved"
-                onChange={handleReviewFormFieldChange}
-                disabled={isFormDisabled}/>
+        id="review"
+        name="review"
+        value={reviewFormData.review}
+        placeholder="Tell how was your stay, what you like and what can be improved"
+        onChange={handleReviewFormFieldChange}
+        disabled={isFormDisabled}
+      />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b
-          className="reviews__text-amount">{MIN_REVIEW_LENGTH} characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{MIN_REVIEW_LENGTH} characters</b>.
         </p>
         <button className="reviews__submit form__submit button"
-                type="submit"
-                disabled={!isFormValid || isFormDisabled}>Submit
+          type="submit"
+          disabled={!isFormValid || isFormDisabled}
+        >Submit
         </button>
       </div>
     </form>
