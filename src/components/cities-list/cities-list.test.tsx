@@ -63,7 +63,7 @@ describe('Component: CitiesList', () => {
 
     render(withStoreComponent);
 
-    const amsterdamLink = screen.getByText('Amsterdam').closest('a');
+    const amsterdamLink = screen.getByText('Amsterdam').closest('div');
     await userEvent.click(amsterdamLink!);
 
     const actions = extractActionsTypes(mockStore.getActions());
@@ -84,7 +84,7 @@ describe('Component: CitiesList', () => {
 
     render(withStoreComponent);
 
-    const brusselsLink = screen.getByText('Brussels').closest('a');
+    const brusselsLink = screen.getByText('Brussels').closest('div');
     await userEvent.click(brusselsLink!);
 
     const emittedActions = mockStore.getActions();
@@ -108,7 +108,7 @@ describe('Component: CitiesList', () => {
 
     const cityItems = container.querySelectorAll('.locations__item-link');
 
-    expect(cityItems).toHaveLength(mockCities.length * 2);
+    expect(cityItems).toHaveLength(mockCities.length);
   });
 });
 

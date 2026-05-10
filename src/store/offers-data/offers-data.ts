@@ -3,7 +3,7 @@ import {fetchOffersAction, fetchOfferAction, fetchOffersNearbyAction, fetchComme
 import {NameSpace} from '../../Const';
 import {OffersData} from '../../types/state';
 import {StatusCodes} from 'http-status-codes';
-import {Offer} from '../../types/offer';
+import { OfferDetailed } from '../../types/offer-detailed';
 
 const initialState: OffersData = {
   offers: [],
@@ -12,7 +12,8 @@ const initialState: OffersData = {
   comments: [],
   favorites: [],
   isOfferNotFound: false,
-  isDataLoading: false
+  isDataLoading: false,
+  isCommentSaving: false
 };
 
 export const offersData = createSlice({
@@ -22,7 +23,7 @@ export const offersData = createSlice({
     setResourceNotFound: (state, action: PayloadAction<boolean>) => {
       state.isOfferNotFound = action.payload;
     },
-    changeFavoriteOfferStatus: (state, action: PayloadAction<Offer>) => {
+    changeFavoriteOfferStatus: (state, action: PayloadAction<OfferDetailed>) => {
       const index = state.offers.findIndex((o) => o.id === action.payload.id);
       state.offers[index] = action.payload;
 
@@ -49,6 +50,27 @@ export const offersData = createSlice({
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
+
+        const favoritesFromOffers = action.payload.filter((offer) => offer.isFavorite);
+        const favoriteIds = new Set(favoritesFromOffers.map((fav) => fav.id));
+
+        // синхронизируем текущее подробное предложение
+        if (state.offerDetailed) {
+          state.offerDetailed = {
+            ...state.offerDetailed,
+            isFavorite: favoriteIds.has(state.offerDetailed.id),
+          };
+        }
+
+        // синхронизируем предложения поблизости
+        state.offersNearby = state.offersNearby.map((offer) => ({
+          ...offer,
+          isFavorite: favoriteIds.has(offer.id),
+        }));
+
+        // сохраняем favorites из ответа /offers
+        state.favorites = favoritesFromOffers;
+
         state.isDataLoading = false;
       })
       .addCase(fetchOffersAction.rejected, (state) => {
@@ -91,8 +113,15 @@ export const offersData = createSlice({
 
         state.favorites = favorites;
       })
+      .addCase(saveCommentAction.pending, (state) => {
+        state.isCommentSaving = true;
+      })
       .addCase(saveCommentAction.fulfilled, (state, action) => {
         state.comments.push(action.payload);
+        state.isCommentSaving = false;
+      })
+      .addCase(saveCommentAction.rejected, (state) => {
+        state.isCommentSaving = false;
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.offers = state.offers.map((offer) => ({

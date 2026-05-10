@@ -5,7 +5,7 @@ import LoginForm from './login-form';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
 import { APIRoute, AppRoute, AuthorizationStatus, NameSpace } from '../../Const';
 import { extractActionsTypes, makeFakeUserData } from '../../utils/mocks';
-import { loginAction } from '../../store/api-actions';
+import { loginAction, fetchOffersAction } from '../../store/api-actions';
 
 describe('Component: LoginForm', () => {
   it('should render email and password inputs and submit button', () => {
@@ -28,8 +28,8 @@ describe('Component: LoginForm', () => {
     expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
   });
 
-  it('should dispatch loginAction when form is submitted', async () => {
-    const fakeUser = { email: 'test@test.ru', password: '123456' };
+  it('should dispatch loginAction and fetchOffersAction when form is submitted', async () => {
+    const fakeUser = { email: 'test@test.ru', password: 'a1b2c3' };
     const fakeServerReply = makeFakeUserData();
 
     const { withStoreComponent, mockStore, mockAxiosAdapter } = withStore(
@@ -43,6 +43,7 @@ describe('Component: LoginForm', () => {
     );
 
     mockAxiosAdapter.onPost(APIRoute.Login).reply(200, fakeServerReply);
+    mockAxiosAdapter.onGet(APIRoute.Offers).reply(200, []);
 
     const preparedComponent = withBrowserRouter(withStoreComponent);
 
@@ -52,11 +53,16 @@ describe('Component: LoginForm', () => {
     await userEvent.type(screen.getByPlaceholderText(/password/i), fakeUser.password);
     await userEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
+    // Ждем завершения всех асинхронных действий
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     const actions = extractActionsTypes(mockStore.getActions());
 
     expect(actions).toEqual([
       loginAction.pending.type,
+      fetchOffersAction.pending.type,
       loginAction.fulfilled.type,
+      fetchOffersAction.fulfilled.type,
     ]);
   });
 
@@ -88,7 +94,7 @@ describe('Component: LoginForm', () => {
 
   it('should render correctly when user enters login and password', async () => {
     const expectedEmail = 'test@test.ru';
-    const expectedPassword = '123456';
+    const expectedPassword = 'a1b2c3';
 
     const { withStoreComponent } = withStore(
       <LoginForm />,

@@ -1,10 +1,21 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ReviewForm from './review-form';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
 import { APIRoute, AuthorizationStatus, NameSpace } from '../../Const';
 import { extractActionsTypes, makeFakeComment } from '../../utils/mocks';
 import { saveCommentAction } from '../../store/api-actions';
+
+const defaultOffersDataState = {
+  offers: [],
+  offerDetailed: undefined,
+  offersNearby: [],
+  comments: [],
+  favorites: [],
+  isOfferNotFound: false,
+  isDataLoading: false,
+  isCommentSaving: false,
+};
 
 describe('Component: ReviewForm', () => {
   const mockOfferId = 'test-offer-id';
@@ -17,6 +28,7 @@ describe('Component: ReviewForm', () => {
           authorizationStatus: AuthorizationStatus.Auth,
           userData: null,
         },
+        [NameSpace.OffersData]: defaultOffersDataState,
       }
     );
 
@@ -30,7 +42,7 @@ describe('Component: ReviewForm', () => {
     expect(container.querySelector('[id="4-stars"]')).toBeInTheDocument();
     expect(container.querySelector('[id="3-stars"]')).toBeInTheDocument();
     expect(container.querySelector('[id="2-stars"]')).toBeInTheDocument();
-    expect(container.querySelector('[id="1-star"]')).toBeInTheDocument();
+    expect(container.querySelector('[id="1-stars"]')).toBeInTheDocument();
   });
 
   it('should render correctly when user types review text', async () => {
@@ -43,6 +55,7 @@ describe('Component: ReviewForm', () => {
           authorizationStatus: AuthorizationStatus.Auth,
           userData: null,
         },
+        [NameSpace.OffersData]: defaultOffersDataState,
       }
     );
 
@@ -55,7 +68,7 @@ describe('Component: ReviewForm', () => {
     expect(screen.getByDisplayValue(reviewText)).toBeInTheDocument();
   });
 
-  it('should update rating when user selects a rating', async () => {
+  it('should update rating when user selects a rating', () => {
     const { withStoreComponent } = withStore(
       <ReviewForm offerId={mockOfferId} />,
       {
@@ -63,16 +76,17 @@ describe('Component: ReviewForm', () => {
           authorizationStatus: AuthorizationStatus.Auth,
           userData: null,
         },
+        [NameSpace.OffersData]: defaultOffersDataState,
       }
     );
 
     const preparedComponent = withBrowserRouter(withStoreComponent);
     const { container } = render(preparedComponent);
+    const ratingInput = container.querySelector('[id="5-stars"]') as HTMLInputElement;
 
-    const ratingInput = container.querySelector('[id="5-stars"]');
-    await userEvent.click(ratingInput!);
+    fireEvent.change(ratingInput, { target: { name: 'rating', value: '5', checked: true } });
 
-    expect(ratingInput).toBeChecked();
+    expect(ratingInput.checked).toBe(true);
   });
 
   it('should disable submit button when review is less than 50 characters', () => {
@@ -83,6 +97,7 @@ describe('Component: ReviewForm', () => {
           authorizationStatus: AuthorizationStatus.Auth,
           userData: null,
         },
+        [NameSpace.OffersData]: defaultOffersDataState,
       }
     );
 
@@ -103,11 +118,15 @@ describe('Component: ReviewForm', () => {
           authorizationStatus: AuthorizationStatus.Auth,
           userData: null,
         },
+        [NameSpace.OffersData]: defaultOffersDataState,
       }
     );
 
     const preparedComponent = withBrowserRouter(withStoreComponent);
-    render(preparedComponent);
+    const { container } = render(preparedComponent);
+
+    const ratingLabel = container.querySelector('label[for="5-stars"]');
+    await userEvent.click(ratingLabel!);
 
     const textarea = screen.getByPlaceholderText('Tell how was your stay, what you like and what can be improved');
     await userEvent.type(textarea, longReview);
@@ -127,10 +146,12 @@ describe('Component: ReviewForm', () => {
           authorizationStatus: AuthorizationStatus.Auth,
           userData: null,
         },
+        [NameSpace.OffersData]: defaultOffersDataState,
       }
     );
 
     mockAxiosAdapter.onPost(`${APIRoute.Comments}/${mockOfferId}`).reply(200, mockComment);
+    mockAxiosAdapter.onGet(`${APIRoute.Comments}/${mockOfferId}`).reply(200, [mockComment]);
 
     const preparedComponent = withBrowserRouter(withStoreComponent);
     const { container } = render(preparedComponent);

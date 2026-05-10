@@ -7,13 +7,17 @@ import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {AuthorizationStatus, AppRoute} from '../../Const';
 import {memo} from 'react';
 
+import './place-card.css';
+
 type PlaceCardProps = {
-    offer: Offer;
-    onSetActive: (activeOfferId: string) => void;
-    onResetActive: () => void;
+  offer: Offer;
+  onSetActive: (activeOfferId: string) => void;
+  onResetActive: () => void;
+  cardVariant?: 'cities' | 'near-places';
+  isHovered?: boolean;
 }
 
-function PlaceCard({offer, onSetActive, onResetActive}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, onSetActive, onResetActive, cardVariant = 'cities', isHovered = false}: PlaceCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -32,9 +36,12 @@ function PlaceCard({offer, onSetActive, onResetActive}: PlaceCardProps): JSX.Ele
 
   const isButtonActive = isAuth && offer.isFavorite;
 
+  const cardClass = `${cardVariant}__card place-card${isHovered ? ' place-card--hovered' : ''}`;
+  const imageWrapperClass = `${cardVariant}__image-wrapper place-card__image-wrapper`;
+
   return (
     <article
-      className="cities__card place-card"
+      className={cardClass}
       onMouseEnter={() => {
         onSetActive(offer.id);
       }}
@@ -47,7 +54,7 @@ function PlaceCard({offer, onSetActive, onResetActive}: PlaceCardProps): JSX.Ele
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={imageWrapperClass}>
         <Link to={`/offer/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
         </Link>

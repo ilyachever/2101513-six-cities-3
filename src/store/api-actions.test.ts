@@ -63,7 +63,7 @@ describe('Async actions', () => {
   });
 
   describe('loginAction', () => {
-    it('should dispatch "loginAction.pending", "loginAction.fulfilled" when server response 200', async () => {
+    it('should dispatch "loginAction.pending", "fetchOffersAction.pending", "loginAction.fulfilled" when server response 200', async () => {
       const fakeUser = { email: 'test@test.ru', password: '123456' };
       const fakeServerReply = makeFakeUserData();
       mockAxiosAdapter.onPost(APIRoute.Login).reply(200, fakeServerReply);
@@ -73,6 +73,7 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         loginAction.pending.type,
+        fetchOffersAction.pending.type,
         loginAction.fulfilled.type,
       ]);
     });

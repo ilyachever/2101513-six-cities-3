@@ -29,6 +29,24 @@ describe('UserProcess Slice', () => {
   });
 
   describe('checkAuthAction', () => {
+    it('should set "Unknown" with "checkAuthAction.pending"', () => {
+      const initialState = {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        userData: null
+      };
+      const expectedState = {
+        authorizationStatus: AuthorizationStatus.Unknown,
+        userData: null
+      };
+
+      const result = userProcess.reducer(
+        initialState,
+        checkAuthAction.pending('', undefined)
+      );
+
+      expect(result).toEqual(expectedState);
+    });
+
     it('should set "Auth" and user data with "checkAuthAction.fulfilled"', () => {
       const mockUserData = makeFakeUserData();
       const expectedState = {
