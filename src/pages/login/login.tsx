@@ -11,7 +11,7 @@ type LoginProps = {
   cities: City[];
 }
 
-function Login({cities}: LoginProps): JSX.Element {
+function Login({cities}: LoginProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const randomCity = useMemo(() => {

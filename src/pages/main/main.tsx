@@ -10,7 +10,7 @@ import {useAppSelector} from '../../hooks';
 import {getOffers} from '../../store/offers-data/selectors';
 import {getCityName} from '../../store/app-process/selectors';
 import SortOptions from '../../components/sort-options/sort-options';
-import {SortType} from '../../Const';
+import {SortType} from '../../const';
 import {sortOffers} from '../../utils/sortOffers';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
@@ -18,7 +18,7 @@ type MainProps = {
   cities: City[];
 }
 
-function Main({cities}: MainProps): JSX.Element {
+function Main({cities}: MainProps) {
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   const [sortType, setSortType] = useState<number | undefined>(SortType.Popular);
 
