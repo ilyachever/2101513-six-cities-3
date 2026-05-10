@@ -14,7 +14,7 @@ type MapProps = {
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: 'pin.svg',
+  iconUrl: '/img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
@@ -25,7 +25,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map(props: MapProps): JSX.Element {
+function Map(props: MapProps) {
   const {city, points, selectedPointId, onMarkerHover} = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);

@@ -1,5 +1,5 @@
 import { Comment } from '../../types/comment';
-import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
+import { calculateRatingWidth } from '../../utils/ratingStarsWidthResolver';
 
 type ReviewProps = {
     comment: Comment;
@@ -11,7 +11,7 @@ const formatDate = (date: Date) =>
     month: 'long',
   }).format(date);
 
-function Review({comment}: ReviewProps): JSX.Element {
+function Review({comment}: ReviewProps) {
   const date = new Date(comment.date);
 
   return (
@@ -27,7 +27,7 @@ function Review({comment}: ReviewProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: RatingStarsWidthResolver.resolve(comment.rating) }}></span>
+            <span style={{ width: calculateRatingWidth(comment.rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
