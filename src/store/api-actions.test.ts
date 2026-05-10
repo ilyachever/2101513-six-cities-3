@@ -86,8 +86,8 @@ describe('Async actions', () => {
 
       await store.dispatch(loginAction(fakeUser));
 
-      expect(mockSaveToken).toBeCalledTimes(1);
-      expect(mockSaveToken).toBeCalledWith(fakeServerReply.token);
+      expect(mockSaveToken).toHaveBeenCalledTimes(1);
+      expect(mockSaveToken).toHaveBeenCalledWith(fakeServerReply.token);
     });
   });
 
@@ -110,7 +110,7 @@ describe('Async actions', () => {
 
       await store.dispatch(logoutAction());
 
-      expect(mockDropToken).toBeCalledTimes(1);
+      expect(mockDropToken).toHaveBeenCalledTimes(1);
     });
   });
 
