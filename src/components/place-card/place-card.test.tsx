@@ -207,11 +207,11 @@ describe('Component: PlaceCard', () => {
 
     if (articleElement) {
       fireEvent.mouseEnter(articleElement);
-      expect(mockOnSetActive).toBeCalledTimes(1);
-      expect(mockOnSetActive).toBeCalledWith(mockOffer.id);
+      expect(mockOnSetActive).toHaveBeenCalledTimes(1);
+      expect(mockOnSetActive).toHaveBeenCalledWith(mockOffer.id);
 
       fireEvent.mouseLeave(articleElement);
-      expect(mockOnResetActive).toBeCalledTimes(1);
+      expect(mockOnResetActive).toHaveBeenCalledTimes(1);
     }
   });
 });
